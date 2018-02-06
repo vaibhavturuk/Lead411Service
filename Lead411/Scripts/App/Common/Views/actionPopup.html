@@ -1,0 +1,59 @@
+﻿<div id="actionModal" class="modal fade modal-md " role="dialog" style="position:absolute ; vertical-align:middle">
+    <div class="modal-dialog  modal-md">
+
+        <!-- Modal content-->
+        <div class="modal-content" id="actionModal">
+
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="closeEmailDailoug()">&times;</button>
+                <h4 class="modal-title">Email Setup</h4>
+            </div>
+            <div class="modal-body">
+                <!-- Email PopUp -->
+                <div class="container">
+                    <div class="row">
+                        <form id="emailForm" role="form" name="emailForm">
+                                <div class="form-group">
+                                    <label for="email">Email To:</label>
+                                    <input id="email" name="EmailId" type="text" class="form-control" ng-model="email.EmailId" required>
+                                    <span ng-show="emailForm.EmailId.$touched && emailForm.EmailId.$invalid">
+                                        EmailId Required
+                                    </span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="subject">Subject:</label>
+                                    <input id="subject" name="Subject" type="text" class="form-control" ng-model="email.Subject" required>
+                                    <span ng-show="emailForm.Subject.$touched && emailForm.Subject.$invalid">
+                                        Subject Required
+                                    </span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="message">Message</label>
+                                    <textarea id="body" name="Body" style="width:100%; height:304px; resize:none;" class="form-control" ng-model="email.Body" required></textarea>
+                                    <span ng-show="emailForm.Body.$touched && emailForm.Body.$invalid">
+                                        Message required
+                                    </span>
+                                </div>
+                            </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button ng-disabled="emailForm.$invalid || searchButtonText == 'Sending'" type="button" class="btn btn-default" ng-click="SendEmail(email) ">
+                        <i class="glyphicon glyphicon-envelope"></i> <span ng-show="searchButtonText == 'Sending'"></span>
+                        {{ searchButtonText }}
+                    </button>
+                </div>
+            </div>
+          
+        </div>
+
+    </div>
+</div>
+<style>
+     #actionModal { z-index:1052; }
+
+     #modelContent{
+         width:520px;
+     } 
+</style>

@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+</head>
+<body>
+    <form name="form1" method="post" action="http://localhost:55555/api/accountapi/UploadFile" enctype="multipart/form-data">
+        <div>
+            <label>
+                Brows File
+            </label>
+            <input id="csvFile" name="uploadfile" type="file" />
+        </div>
+        <div>
+            <input id="btnUploadFile" type="button" value="Upload" />
+        </div>
+    </form>
+    <script type="text/javascript">
+$(document).ready(function () {
+
+    $('#btnUploadFile').on('click', function () {
+
+      var data = new FormData();
+
+      var files = $("#csvFile").get(0).files;
+
+      // Add the uploaded image content to the form data collection
+      if (files.length > 0) {
+          data.append("Uploadedfile", files[0]);
+          data.append("emailSubject", 'Test Subject');
+          data.append("emailBody", '<h2>Test Body</h2>');
+          data.append("emailFrom", 'devacc8410@gmail.com');
+      }
+                  
+      // Make Ajax request with the contentType = false, and procesDate = false
+      var ajaxRequest = $.ajax({
+          type: "POST",
+          //url: "http://lead411testapp.azurewebsites.net/api/accountapi/UploadFile",//?subject=testing&body=" + 'Hi <firstname>' + "&fileName=" + files,
+          //url: "http://lead411chromeex.azurewebsites.net/api/accountapi/UploadFile",//?subject=testing&body=" + 'Hi <firstname>' + "&fileName=" + files,
+          url: "http://localhost:55555/api/accountapi/UploadFile",//?subject=testing&body=" + 'Hi <firstname>' + "&fileName=" + files,
+          //url: "http://stagingwin.com/lead411/api/accountapi/UploadFile",//?subject=testing&body=" + 'Hi <firstname>' + "&fileName=" + files,
+           contentType: false,
+           processData: false,
+           cache: false,
+           headers: {
+               'Authorization': 'Bearer ' + 'ya29.GluNBNAK0zlUXWNx_xe9Khv06tix9Kj4fqghzokXqoOZcfgt4b8z7Hj2FVjpbeaw8UrVFPYpBeqWVcnBj_i388W5FDZ4HaNO-QfmANkEBkTwea6d9hMUwM8uunhr'
+           },
+           data: data
+           });
+
+      ajaxRequest.done(function (xhr, textStatus) {
+          // Do other operation
+          alert("Done!");
+             });
+   });
+});
+    </script>
+    <!--<script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#btnUploadFile').on('click', function () {
+                alert();
+                var data = new FormData();
+                //var files = $("#csvFile").get(0).files;
+                jQuery.each(jQuery('#csvFile').get(0).files, function (i, file) {
+                    fileObjects.append('LEAD411_CSV_file_' + i, file);
+                });
+                jQuery.ajax({
+                   type: "POST",
+                    url: "http://localhost:55555/api/accountapi/UploadFile",
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    data: data,
+                    success: function (response) {
+                        if (response.status == 'OK') {
+                            alert("OK");
+                            //fileUploadSuccess();
+                        } else { alert(response.status);
+                            //fileUploadError(response.message);
+                        }
+                    },
+                    error: function (err) {
+                        fileUploadError("Something went wrong");
+                    }
+                });
+            });
+        });
+    </script>-->
+    <!--<script type="text/javascript">
+                    $(document).ready(function () {
+
+                       $('#btnUploadFile').on('click', function () {
+                           alert();
+                          var data = new FormData();
+
+                          var files = $("#uploadfile").get(0).files;
+                          console.log(files);
+                          alert();
+                          // Add the uploaded image content to the form data collection
+                          if (files.length > 0) {
+                               data.append("UploadedImage", files[0]);
+                          }
+
+                          // Make Ajax request with the contentType = false, and procesDate = false
+                          var ajaxRequest = $.ajax({
+                               type: "POST",
+                               url: "/api/Lead411api/UploadFile",
+                               contentType: false,
+                               processData: false,
+                               data: data
+                               });
+
+                          ajaxRequest.done(function (xhr, textStatus) {
+                                        // Do other operation
+                                 });
+                       });
+                    });
+    </script>-->
+</body>
+</html>

@@ -1,0 +1,270 @@
+
+<!--<span class="loader" ng-show="loader.loading" style="text-align: center">
+    <img width="50" height="50" src="../../../../Images/loader.gif" />
+    Loading...
+</span>-->
+
+<style>
+
+     .loader {
+         text-align: center;
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         margin-top: -25px;
+         margin-left: -25px;
+         background-color: transparent;
+         z-index: 9999999;
+     }
+</style>
+
+<div class="row">
+
+    <!-- Search -->
+
+    <form id="searchForm" class="form-inline" ng-submit="search()" role="form" style="margin-bottom:-10px">
+
+        <div class="form-group">
+            <input type="text" class="form-control input-md" ng-model="pagingInfo.search" placeholder="Search...">
+            <button id="searchBtn" type="submit" class="btn btn-info btn-sm"><strong>Search</strong></button>
+        </div>
+
+    </form> <br />
+
+    <!-- Grid -->
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover table-responsive">
+            <thead>
+                <tr>
+                    <th style="text-align:center"><input name="headerCheckBox" type="checkbox" ng-change="isSelectAll()" ng-model="master"></th>
+                    <th><a href="javascript:void(0)" ng-click="sort('firstName')">First Name <span ng-show="pagingInfo.sortBy == 'firstName' && !pagingInfo.reverse" class="fa fa-caret-down"></span> <span ng-show="pagingInfo.sortBy == 'firstName' && pagingInfo.reverse" class="fa fa-caret-up"></span></a></th>
+                    <th><a href="javascript:void(0)" ng-click="sort('lastName')">Last Name  <span ng-show="pagingInfo.sortBy == 'lastName' && !pagingInfo.reverse" class="fa fa-caret-down"></span> <span ng-show="pagingInfo.sortBy == 'lastName' && pagingInfo.reverse" class="fa fa-caret-up"></span></a></th>
+                    <th><a href="javascript:void(0)" ng-click="sort('emailId')">Email Id  <span ng-show="pagingInfo.sortBy == 'emailId' && !pagingInfo.reverse" class="fa fa-caret-down"></span> <span ng-show="pagingInfo.sortBy == 'emailId' && pagingInfo.reverse" class="fa fa-caret-up"></span></a></th>
+                    <th><a href="javascript:void(0)" ng-click="sort('provider')">Provider <span ng-show="pagingInfo.sortBy == 'provider' && !pagingInfo.reverse" class="fa fa-caret-down"></span> <span ng-show="pagingInfo.sortBy == 'provider' && pagingInfo.reverse" class="fa fa-caret-up"></span></a></th>
+                    <th><a style="text-decoration:none">Action</a></th>
+                </tr>
+                <!--<i class="fa fa-spinner fa-spin"></i>-->
+
+            </thead>
+            <tbody id="tbody">
+                <tr ng-repeat="user in users">
+                    <td style="text-align: center"><input type="checkbox" name="selected" ng-model="user.selected" ng-change="isChecked(user)" /></td>
+                    <td style="cursor: pointer;" ng-click="rowClicked(user)">{{ user.firstName}}</td>
+                    <td style="cursor: pointer;" ng-click="rowClicked(user)">{{ user.lastName }}</td>
+                    <td style="cursor: pointer;" ng-click="rowClicked(user)">{{ user.emailId }}</td>
+                    <td style="cursor: pointer;" ng-click="rowClicked(user)">{{ user.provider }}</td>
+                    <td>
+                        <a href="javascript:void(0)" id="{{user.userMembershipId}}" data-target="#myModal" data-toggle="modal"
+                           ng-click="GetUserDetails(user.userMembershipId)">
+                            Details
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--<span ng-show="loader.loading" style="align-content: center">
+            Loading...
+        <img width="50" height="50" src="../../../../Images/loader.gif" />
+            <i class="fa fa-spinner fa-spin"></i>
+        </span>-->
+    </div>
+
+    <!-- Pagination ng-hide="searchDataLength < '5'" -->
+    <pagination class="pull-right disabled" page="pagingInfo.pageNumber"
+                total-items="pagingInfo.totalItems"
+                items-per-page="pagingInfo.pageSize"
+                on-select-page="selectPage(page)"
+                max-size="5"
+                rotate="false"
+                boundary-links="true" style="cursor: pointer; margin-top:-8px;">
+    </pagination>
+
+    <!-- Inculding Action Buttons -->
+    <div style="margin-top:-8px;" ng-include="'Scripts/App/Common/Views/actionButtons.html'"></div>
+
+</div>
+
+<!-- User Details Modal Popup -->
+<div id="myModal" class="modal fade " role="dialog">
+    <div class="modal-dialog  modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content" id="detailsContent">
+
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="dismissDetailModal()">&times;</button>
+                <h4 class="modal-title">User Details</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-center" ng-show="loader">Loading...</p>
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped table-bordered userdetailstable" ng-hide="loader">
+                        <tr>
+                            <td><b>Name</b></td>
+                            <td>
+                                {{userDetail.firstName}} {{userDetail.lastName}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Email Id</b></td>
+                            <td>
+                                {{userDetail.emailId}} (Provider: {{userDetail.provider}})
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Application type</b></td>
+                            <td>
+                                <span ng-repeat="appType in userDetail.applicationType">{{appType}} ,</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Is old mail process completed</b></td>
+                            <td>
+                                {{userDetail.isOldProcessCompleted}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Old process completed date</b></td>
+                            <td>
+                                {{userDetail.oldProcessCompletedDate | date:"MM/dd/yyyy 'at' h:mma"}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>No of indexers run for old mail process</b></td>
+                            <td>
+                                {{userDetail.noOfIndexersTakenToComplateOldProcess}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Time taken to finished old mail process</b></td>
+                            <td>
+                                {{userDetail.timeTakenToFinishedOldMailProcess | millSecondsToTimeString}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>No of indexer process run for new mail</b></td>
+                            <td>
+                                {{userDetail.noOfIndexerProcessRunForNewMail}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Total no of mails processed</b></td>
+                            <td>
+                                {{userDetail.totalNoOfMailsProcessed}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Total time taken by process till now</b></td>
+                            <td>
+                                {{userDetail.totalTimeTakenByProcessTillNow | millSecondsToTimeString}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Total no of indexer run till now</b></td>
+                            <td>
+                                {{userDetail.totalNoOfIndexerRunTillNow}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Current access token</b></td>
+                            <td ng-init="limit = 20; moreShown = false" style="word-break: break-all;">
+                                {{userDetail.currentAccessToken | limitTo : limit }}{{userDetail.currentAccessToken.length > limit ? ' ...' : ''}}
+                                <a ng-show="userDetail.currentAccessToken.length > limit" ng-click="limit = userDetail.currentAccessToken.length; moreShown = true">
+                                    More
+                                </a>
+                                <a ng-show="moreShown" ng-click="limit = 20; moreShown = false"> Less </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Current refresh token</b></td>
+                            <td ng-init="limitRefreshToken = 20; more = false" style="word-break: break-all;">
+                                {{userDetail.currentRefreshToken | limitTo : limitRefreshToken }}{{userDetail.currentRefreshToken.length > limitRefreshToken ? ' ...' : ''}}
+                                More
+                                <a ng-show="more" ng-click="limitRefreshToken = 20; more = false"> Less </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Last date of indexer run</b></td>
+                            <td>
+                                {{userDetail.lastDateOfIndexerRun | date:"MM/dd/yyyy 'at' h:mma"}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="dismissDetailModal()">Close</button>
+                <div class="pull-left" ng-include="'Scripts/App/Common/Views/actionButtons.html'"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .userdetailstable tr > td:first-child {
+        white-space: nowrap;
+    }
+
+    @media screen and (max-width: 768px) {
+        #searchBtn {
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        #searchForm {
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        #modelContent {
+            width: 392px;
+        }
+    }
+
+    @media (min-device-width: 800px) and (max-device-width: 1280px) {
+        #emailForm {
+            width: 487px;
+        }
+    }
+
+    @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+        #modelContent {
+            width: 339px;
+        }
+    }
+
+    @media screen and (device-width: 360px) and (device-height: 640px) {
+        #modelContent {
+            width: 339px;
+        }
+    }
+
+    /*ipad*/
+    @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 1) {
+        #emailForm {
+            width: 358px;
+        }
+    }
+
+    /* iphone 5*/
+    @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+        #modelContent {
+            width: 300px;
+        }
+    }
+
+    /*Galaxy Tablets*/
+    @media (min-device-width: 800px) and (max-device-width: 1280px) {
+        #emailForm {
+            width: 489px;
+        }
+    }
+
+    /* Laptops */
+    @media screen and (min-device-width: 1200px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 1) {
+        #emailForm {
+            width: 487px;
+        }
+    }
+</style>

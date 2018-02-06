@@ -1,0 +1,116 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <!-- BEGIN Pre-requisites -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
+    </script>
+    <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer>
+    </script>
+    <!-- Continuing the <head> section -->
+    <script>
+        //redirect_uri: 'http://localhost:55555',
+        function start() {
+            gapi.load('auth2', function () {
+                auth2 = gapi.auth2.init({
+                    client_id: '754756613373-8t8dhl75gc00qr4861loku9qq24o0crr.apps.googleusercontent.com',//Azure
+                    redirect_uri: 'http://lead411chromeex.azurewebsites.net/test/index.html',
+
+                    //client_id: '754756613373-fm0nhitf82m368pm6953et6g6phrld6r.apps.googleusercontent.com',//Staging
+                    //redirect_uri: 'http://lead411testapp.azurewebsites.net/test/index.html',
+
+                    //client_id: '948838070491-6s1lve2m63m2ekmjj7np8tq9tfog1gjb.apps.googleusercontent.com', //108
+                    //redirect_uri: 'http://stagingwin.com/lead411/test/index.html',
+
+                    //client_id: '948838070491-0ta8b3dpnpj896emi5vikraveufu9181.apps.googleusercontent.com', //local
+                    //redirect_uri: 'http://localhost:55555',
+
+                    // Scopes to request in addition to 'profile' and 'email'
+                    access_type: 'offline',
+                    approval_prompt: 'force',
+                    grant_type: 'authorization_code',
+                    scope: 'http://mail.google.com email profile https://www.google.com/m8/feeds/'
+                });
+            });
+        }
+    </script>
+</head>
+<body>
+    <!-- ... -->
+    <!-- Add where you want your sign-in button to render -->
+    <!-- Use an image that follows the branding guidelines in a real app -->
+    <button id="signinButton">Sign in with Google</button>
+    <button id="watch">Set the watch</button>
+    <script>
+        $('#signinButton').click(function () {
+            // signInCallback defined in step 6.
+            auth2.grantOfflineAccess({ 'redirect_uri': 'postmessage' }).then(signInCallback);
+        });
+        $('#watch').click(function () {
+
+            auth2.grantOfflineAccess({ 'redirect_uri': 'postmessage' }).then(callWatch);
+            function callWatch(authResult) {
+                $.ajax({
+                    type: 'POST',
+                    url: "https://www.googleapis.com/gmail/v1/users/me/watch",
+                    contentType: 'application/json',
+                    success: function (result) {
+                        document.write(JSON.stringify(result));
+
+                    },
+                    processData: false,
+                    data: {
+                        topicName: "projects/emailtest-169408/topics/testMail",
+                        labelIds: ["INBOX"],
+                    }
+                });
+            }
+        });
+    </script>
+    <!-- Last part of BODY element in file index.html -->
+    <script>
+        function signInCallback(authResult) {
+            //window.document.body.text(auth2.currentUser.get().hg.access_token);
+            //console.log(auth2.currentUser.get().hg.access_token);
+            if (authResult['code']) {
+                document.write(JSON.stringify(authResult['code']));
+                // Hide the sign-in button now that the user is authorized, for example:
+                $('#signinButton').attr('style', 'display: none');
+
+                // Send the code to the server
+                $.ajax({
+                    type: 'GET',
+                    //url: 'http://lead411testapp.azurewebsites.net/api/accountapi/GetAccessToken?authorizedCode=' + authResult['code'] + '&accountType=0&platform=Android&uuid=98465184684&model=GT580&reqType=web',
+                    url: 'http://lead411chromeex.azurewebsites.net/api/accountapi/GetAccessToken?authorizedCode=' + authResult['code'] + '&accountType=0&platform=Android&uuid=98465184684&model=GT580&reqType=web',
+                    //url: 'http://localhost:55555/api/accountapi/GetAccessToken?authorizedCode=' + authResult['code'] + '&accountType=0&platform=Android&uuid=98465184684&model=GT580&reqType=web',
+                    //url: 'http://stagingwin.com/lead411/api/accountapi/GetAccessToken?authorizedCode=' + authResult['code'] + '&accountType=0&platform=Android&uuid=98465184684&model=GT580&reqType=web',
+                    contentType: 'application/octet-stream; charset=utf-8',
+                    success: function (result) {
+                        document.write(JSON.stringify(result));
+                        //alert('Done');
+                        // Handle or verify the server response.
+                        $.ajax({
+                            type: 'GET',
+                            url: 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=' + result.content.accessToken,
+                            contentType: 'application/octet-stream; charset=utf-8',
+                            success: function (result2) {
+                                document.write(JSON.stringify(result2));
+                                //alert('Done');
+                                // Handle or verify the server response.
+                              
+                            },
+                            processData: false
+                        });
+                    },
+                    processData: false,
+                    data: { mydate: authResult['code'] }
+                });
+            } else {
+                // There was an error.
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+﻿.navbar {
+            border-radius: 0;
+        }
+        /*---css added on 16-11-16--*/
+        div.image img {
+            width: 48px;
+            height: 48px;
+            position: relative;
+            -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+            -webkit-animation-duration: 5s; /* Safari 4.0 - 8.0 */
+            -webkit-animation-iteration-count: infinite; /* Safari 4.0 - 8.0 */
+            animation-name: example;
+            animation-duration: 5s;
+            animation-iteration-count: infinite;
+        }
+
+        /* Safari 4.0 - 8.0 */
+        @-webkit-keyframes example {
+            0%   {-ms-transform: rotate(0deg); /* IE 9 */
+            -webkit-transform: rotate(0deg); /* Chrome, Safari, Opera */
+            transform: rotate(0deg);}
+            20%  {-ms-transform: rotate(90deg); /* IE 9 */
+            -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+            transform: rotate(90deg);}
+            40%  {-ms-transform: rotate(180deg); /* IE 9 */
+            -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+            transform: rotate(180deg);}
+            60%  {-ms-transform: rotate(270deg); /* IE 9 */
+            -webkit-transform: rotate(270deg); /* Chrome, Safari, Opera */
+            transform: rotate(270deg);}
+            80% {-ms-transform: rotate(360deg); /* IE 9 */
+            -webkit-transform: rotate(360deg); /* Chrome, Safari, Opera */
+            transform: rotate(360deg);}
+            100% {-ms-transform: rotate(720deg); /* IE 9 */
+            -webkit-transform: rotate(720deg); /* Chrome, Safari, Opera */
+            transform: rotate(720deg);}
+        }
+
+        /* Standard syntax */
+        @keyframes example {
+            0%   {-ms-transform: rotate(0deg); /* IE 9 */
+            -webkit-transform: rotate(0deg); /* Chrome, Safari, Opera */
+            transform: rotate(0deg);}
+            20%  {-ms-transform: rotate(90deg); /* IE 9 */
+            -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+            transform: rotate(90deg);}
+            40%  {-ms-transform: rotate(180deg); /* IE 9 */
+            -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+            transform: rotate(180deg);}
+            60%  {-ms-transform: rotate(270deg); /* IE 9 */
+            -webkit-transform: rotate(270deg); /* Chrome, Safari, Opera */
+            transform: rotate(270deg);}
+            80% {-ms-transform: rotate(360deg); /* IE 9 */
+            -webkit-transform: rotate(360deg); /* Chrome, Safari, Opera */
+            transform: rotate(360deg);}
+            100% {-ms-transform: rotate(720deg); /* IE 9 */
+            -webkit-transform: rotate(720deg); /* Chrome, Safari, Opera */
+            transform: rotate(720deg);}
+        }
+        .image {
+          width: 48px;
+          height: 48px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          /* right: auto; */
+          /* margin: 0 auto; */
+          margin-left: -24px;
+          margin-top: -24px;
+        }

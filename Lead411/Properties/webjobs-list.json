@@ -1,0 +1,11 @@
+﻿{
+  "$schema": "http://schemastore.org/schemas/json/webjobs-list.json",
+  "WebJobs": [
+    {
+      "filePath": "../IndexerWebJob/IndexerWebJob.csproj"
+    },
+    {
+      "filePath": "../ControllerWebJob/ControllerWebJob.csproj"
+    }
+  ]
+}

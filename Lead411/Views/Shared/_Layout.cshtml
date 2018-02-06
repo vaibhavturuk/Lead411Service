@@ -1,0 +1,105 @@
+﻿@using System.Web.Optimization
+@using WebGrease.Configuration
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>@ViewBag.Title - Lead411</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+    <link href="~/Content/developer.css" rel="stylesheet" />
+    <!-- JS (load angular, ui-router, and our custom js file) -->
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular_ui.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap_ui.js"></script>
+    <script src="~/Scripts/App/app.js"></script>
+    <script src="~/Scripts/App/About/Controller/aboutController.js"></script>
+    <script src="~/Scripts/App/User/Controller/userController.js"></script>
+    <script src="~/Scripts/App/Services/userService.js"></script>
+    <script src="~/Scripts/App/Services/emailService.js"></script>
+    <script src="~/Scripts/App/Services/customFilters.js"></script>
+    <script src="~/Scripts/App/directives/loader.directive.js"></script>
+    @*@Scripts.Render("~/bundles/adminpanel")*@
+
+    <script type="text/javascript">
+        function preventBack()
+        {
+            window.history.forward();
+        }
+        setTimeout("preventBack()", 0);
+        window.onunload=function(){null};
+    </script>
+
+
+</head>
+<body ng-app="routerApp">
+   
+    <!-- NAVIGATION -->
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Lead411 Admin Panel</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    @*<li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Page 1-1</a></li>
+                            <li><a href="#">Page 1-2</a></li>
+                            <li><a href="#">Page 1-3</a></li>
+                        </ul>
+                    </li>*@
+                    @*<li  class="active"><a ui-sref="home">Home</a></li>
+                    <li><a ui-sref="about">About</a></li>*@
+                    <li ><a ui-sref="user">User</a></li>
+                    <li><a ui-sref="about">About</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        @if (HttpContext.Current.User.Identity.IsAuthenticated)
+                        {
+                            <a href='@Url.Action("Logout", "Admin")' id="logout"><span class="glyphicon glyphicon-user"></span> Logout</a>
+                        }
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- MAIN CONTENT -->
+    <!-- THIS IS WHERE WE WILL INJECT OUR CONTENT ============================== -->
+    <div class="container">
+        @RenderBody()
+        <div ui-view>
+        </div>
+        <loader></loader>
+    </div>
+<div class="text-center">
+    <p>© <a href="http://www.Lead411.com" target="_blank">www.Lead411.com</a></p>
+</div>
+   
+    @*<div class="modal fade in" id="overlayDiv" tabindex="-1" role="dialog" style="display: block;
+background: #A7a7a7; -ms-opacity: 0.6; opacity: 0.6" ng-show="loader.loading">
+    </div>
+    <div class="loader" ng-show="loader.loading">
+        <img width="50" height="50" src="~/Images/loader.gif" />
+    </div>*@
+</body>
+</html>

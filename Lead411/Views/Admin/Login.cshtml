@@ -1,0 +1,94 @@
+﻿@{
+    ViewBag.Title = "Admin";
+    Layout = null;
+}
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>@ViewBag.Title - Lead411</title> 
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style type="text/css">
+        .navbar {
+            border-radius: 0;
+        }
+
+        /* Credit to bootsnipp.com for the css for the color graph */
+        .colorgraph {
+            height: 5px;
+            border-top: 0;
+            background: #c4e17f;
+            border-radius: 5px;
+            background-image: -webkit-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+            background-image: -moz-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+            background-image: -o-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+            background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+        }
+    </style>
+    <!-- JS (load angular, ui-router, and our custom js file) -->
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+    <script src="~/Scripts/App/app.js"></script>
+    <script src="~/Scripts/App/About/Controller/aboutController.js"></script>
+    <script src="~/Scripts/App/User/Controller/userController.js"></script>
+    <script src="~/Scripts/App/Services/userService.js"></script>
+    <script src="~/Scripts/App/Services/customFilters.js"></script>
+
+
+</head>
+<body ng-app="routerApp">
+    <div class="container">
+        <div class="row" style="margin-top:20px">
+
+            <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+                <form name="loginForm" action="@Url.Action("Authenticate")" method="post">
+                    <fieldset>
+                        <h2 style="text-align:center">Sign In</h2>
+                        <hr class="colorgraph">
+
+                        <!-- Username -->
+                        <div class="form-group">
+                            <input required type="text" name="Username" id="username" class="form-control input-lg" placeholder="Username" ng-model="Login.Username">
+                            <span ng-show="loginForm.Username.$touched && loginForm.Username.$invalid">
+                               Required
+                            </span>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-group">
+                            <input required type="password" name="Password" id="password" class="form-control input-lg" placeholder="Password" ng-model="Login.Password">
+                            <span ng-show="loginForm.Password.$touched && loginForm.Password.$invalid">
+                                Required
+                            </span>
+                        </div>
+
+                        <hr class="colorgraph">
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6 pull-right" style="width:180px">
+                                <input ng-disabled="loginForm.$invalid" type="submit" class="btn btn-lg btn-success btn-block" value="Sign In">
+                            </div>
+                        </div>
+                    </fieldset>
+                    <br /><center>(Username: admin | Password:1234)</center>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="text-center">
+        <p>© <a href="http://www.Lead411.com" target="_blank">www.Lead411.com</a></p>
+    </div>
+</body>
+</html>
+
+
+
+
+
